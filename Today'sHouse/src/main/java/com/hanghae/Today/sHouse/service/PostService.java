@@ -47,6 +47,19 @@ public class PostService {
         String content = requestDto.getContent();
 
         //s3 관련
+        String imgUrl = getImgUrl(imageUrl);
+
+        PostRequestDto postRequestDto = new PostRequestDto(size, type, style, area, imgUrl, content);
+        Post post = new Post(user, postRequestDto);
+        postRepository.save(post);
+
+        return post;
+    }
+
+
+
+    ////////////////////////------------S3관련---------------//////////////////////////////
+    private String getImgUrl(MultipartFile imageUrl) {
         String fileName = createFileName(imageUrl.getOriginalFilename());
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(imageUrl.getSize());
@@ -61,17 +74,8 @@ public class PostService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
         }
 
-        String imgUrl = amazonS3.getUrl(bucket, fileName).toString();
-
-        PostRequestDto postRequestDto = new PostRequestDto(size, type, style, area, imgUrl, content);
-        Post post = new Post(user, postRequestDto);
-        postRepository.save(post);
-
-        return post;
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
-
-    ////////////////////////------------S3관련---------------//////////////////////////////
-
 
     public void deleteImage(String fileName) {
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
