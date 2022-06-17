@@ -46,7 +46,7 @@ public class UserService {
         String nickname = requestDto.getUserNickname();
 
         //데이터 저장
-        User user = new User(userEmail, nickname, password);
+        User user = new User(userEmail, nickname, password); 
         userRepository.save(user);
     }
 }
