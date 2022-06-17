@@ -27,20 +27,18 @@ public class UserService {
         if (found.isPresent())
             throw new IllegalArgumentException("중복된 닉네임입니다.");
 
-        String nickname = requestDto.getNickname();
-
-
         //- 닉네임은 `최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)`로 구성하기
         String pattern = "^[a-zA-Z0-9]*$";
         if(requestDto.getUsername().length() < 3 && Pattern.matches(pattern, requestDto.getUsername()))
             throw new IllegalArgumentException("영문/숫자 포함 닉네임은 3자리 이상 입력해주세요.");
 
-        //패스워드
         String password = passwordEncoder.encode(requestDto.getPassword());
 
         //- 비밀번호는 `최소 4자 이상이며, 닉네임과 같은 값이 포함된 경우 회원가입에 실패`로 만들기
         if(requestDto.getPassword().length() < 4 || requestDto.getPassword().contains(username))
             throw new IllegalArgumentException("비밀번호 4자리 이상, 혹은 닉네임과 같은 값을 사용할 수 없습니다.");
+
+        String nickname = requestDto.getNickname();
 
         //데이터 저장
         User user = new User(username, nickname, password);

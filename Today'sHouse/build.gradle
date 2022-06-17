@@ -36,6 +36,10 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	compileOnly 'com.auth0:java-jwt:3.13.0'
+
+	//AWS S3
+	//implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'		--넣으면 오류난다.
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.172'
 }
 
 tasks.named('test') {

@@ -3,6 +3,8 @@ import com.hanghae.Today.sHouse.dto.SignupRequestDto;
 import com.hanghae.Today.sHouse.repository.UserRepository;
 import com.hanghae.Today.sHouse.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,16 +17,14 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/user/signup")
-    public String registerUser(@RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<String> registerUser(@RequestBody SignupRequestDto requestDto) {
         try{
             userService.registerUser(requestDto);
-            return "Success";
+            return new ResponseEntity<>("로그인에 성공하셨습니다!", HttpStatus.OK);
         }
         catch(IllegalArgumentException e){
-            return e.getMessage();
-
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
     }
-
-
 }
