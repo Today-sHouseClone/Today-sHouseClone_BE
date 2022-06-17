@@ -74,7 +74,7 @@ public class PostService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
         }
 
-        return amazonS3.getUrl(bucket, fileName).toString(); 
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 
     public void deleteImage(String fileName) {

@@ -24,13 +24,13 @@ public class User {
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
-    private String nickname;
+    private String userNickname;
     @Column(nullable = false)
     private String password;
 
-    public User(String username, String nickname, String password) {
+    public User(String username, String userNickname, String password) {
         this.username = username;
-        this.nickname = nickname;
+        this.userNickname = userNickname;
         this.password = password;
     }
 
