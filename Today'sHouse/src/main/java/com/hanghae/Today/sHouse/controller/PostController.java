@@ -18,7 +18,12 @@ public class PostController {
 
     //게시글 등록
     @PostMapping("/api/post")
-    public ResponseEntity<Post>createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFileDto requestDto){
-        return new ResponseEntity<>(postService.createPost(userDetails, requestDto), HttpStatus.CREATED);
+    public ResponseEntity<String>createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFileDto requestDto){
+        try{
+            postService.createPost(userDetails, requestDto);
+            return new ResponseEntity<>("게시글 등록을 성공하였습니다.", HttpStatus.CREATED);
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
